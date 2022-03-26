@@ -1,0 +1,4 @@
+export email_qq=3218125624@qq.com
+export email_google=smalldecline123@gmail.com
+export github_repo=https://github.com/smalldecline
+export clash_proxy=host.docker.internal:7890
