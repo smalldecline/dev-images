@@ -1,0 +1,7 @@
+FROM devenv:base
+RUN apt update && apt-get install -y gcc g++ gdb
+RUN apt install -y make cmake
+ENV XMAKE_ROOT=y
+ADD xmake.amd64.deb /root
+RUN dpkg -i /root/xmake.amd64.deb && rm -r xmake.amd64.deb
+RUN mkdir -p /build/glibc-sMfBJT/glibc-2.31 && cd /build/glibc-sMfBJT/glibc-2.31 && wget http://ftp.gnu.org/gnu/glibc/glibc-2.31.tar.gz && tar xzvf glibc-2.31.tar.gz
