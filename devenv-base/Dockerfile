@@ -21,8 +21,16 @@ RUN locale-gen zh_CN.UTF-8 \
 	&& source /etc/profile
 RUN apt-get install -y tzdata && ln -fs /usr/share/zoneinfo/Asia/Shanghai /etc/localtime
 
-RUN apt install -y git
+RUN apt install -y git 
 RUN git config --global user.email ${email_qq}\
 	&& git config --global user.name smalldecline \
 	&& git config --global http.https://github.com.proxy ${clash_proxy} \
 	&& git config --global https.https://github.com.proxy ${clash_proxy}
+
+RUN enable_proxy
+RUN apt install -y zsh \
+	&& sh -c "$(wget -O- https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" \
+	&& chsh -s /bin/zsh
+RUN git clone https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions\
+	&& git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting
+ADD ./.zshrc /root
