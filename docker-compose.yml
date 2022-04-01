@@ -1,0 +1,56 @@
+version: '3.8'
+services:
+  base:
+    image: devenv:base
+    build: ./devenv-base
+    volumes:
+      - base:/root/workspace
+    networks:
+      - devenv-network
+    stdin_open: true
+    tty: true
+
+  python:
+    image: devenv:python
+    build: ./devenv-python
+    volumes:
+      - python:/root/workspace
+    depends_on:
+      - base
+    networks:
+      - devenv-network
+    stdin_open: true
+    tty: true
+
+  node.js:
+    image: devenv:node.js
+    build: ./devenv-nodejs
+    volumes:
+      - node.js:/root/workspace
+    depends_on:
+      - base
+    networks:
+      - devenv-network
+    stdin_open: true
+    tty: true
+
+  clang:
+    image: devenv:clang
+    build: ./devenv-clang
+    volumes:
+      - clang:/root/workspace
+    depends_on:
+      - base
+    networks:
+      - devenv-network
+    stdin_open: true
+    tty: true
+
+volumes:
+  base:
+  python:
+  node.js:
+  clang:
+
+networks:
+  devenv-network:

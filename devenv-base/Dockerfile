@@ -5,6 +5,7 @@ ENV email_google smalldecline123@gmail.com
 ENV github_repo https://github.com/smalldecline
 ENV DEBIAN_FRONTEND=noninteractive
 ENV clash_proxy host.docker.internal:7890
+ENV PROJECT=~/project
 COPY enable_proxy /usr/local/bin
 COPY disable_proxy /usr/local/bin
 
@@ -35,7 +36,12 @@ RUN sh -c "$(wget -O- https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/t
 RUN git clone https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions\
 	&& git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting
 
-ADD .zshrc /root
+RUN sed -ie "s/(git)/(git zsh-autosuggestions zsh-syntax-highlighting \
+	hitokoto colored-man-pages safe-paste per-directory-history \
+	command-not-found extract\
+	)/" /root/.zshrc
 
 ENV http_proxy=
 ENV https_proxy=
+
+RUN apt install -y jq
